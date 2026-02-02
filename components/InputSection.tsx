@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Link, Type, ChevronRight, Loader2, Info, Sparkles, Upload, FileCheck, X, FileText, Globe } from 'lucide-react';
+import { Link, Type, ChevronRight, Loader2, Info, Sparkles, Upload, FileCheck, X, FileText } from 'lucide-react';
 import { AnalysisInput, FileData } from '../types';
 
 interface Props {
@@ -10,7 +10,6 @@ interface Props {
 
 const InputSection: React.FC<Props> = ({ onAnalyze, isLoading }) => {
   const [text, setText] = useState('');
-  const [url, setUrl] = useState('');
   const [files, setFiles] = useState<{ file: File, data: FileData }[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -74,12 +73,11 @@ const InputSection: React.FC<Props> = ({ onAnalyze, isLoading }) => {
     e.preventDefault();
     onAnalyze({
       text: text.trim() || undefined,
-      url: url.trim() || undefined,
       files: files.map(f => f.data)
     });
   };
 
-  const hasInput = text.trim() || url.trim() || files.length > 0;
+  const hasInput = (!!text.trim()) || (files.length > 0);
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
@@ -95,7 +93,7 @@ const InputSection: React.FC<Props> = ({ onAnalyze, isLoading }) => {
           </span>へ。
         </h1>
         <p className="text-slate-400 text-base md:text-lg font-medium leading-relaxed px-4">
-          文章、リンク、資料を組み合わせて、<br className="hidden md:block" />多角的な人物解析を実現します。
+          文章、資料を組み合わせて、<br className="hidden md:block" />多角的な人物解析を実現します。
         </p>
       </div>
 
@@ -117,43 +115,30 @@ const InputSection: React.FC<Props> = ({ onAnalyze, isLoading }) => {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            {/* Section 2: URL Input */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-blue-400 font-black text-[11px] uppercase tracking-[0.2em]">
-                <Globe size={16} />
-                <span>Reference URL / note</span>
-              </div>
-              <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://note.com/user..."
-                className="w-full bg-slate-50/50 rounded-2xl px-6 py-4 text-slate-700 placeholder:text-slate-300 border border-slate-100 focus:border-blue-200 focus:bg-white focus:ring-4 focus:ring-blue-50/50 outline-none transition-all font-medium text-sm"
-              />
+          {/* Section 2: File Multi-Upload */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 text-green-500 font-black text-[11px] uppercase tracking-[0.2em]">
+              <FileText size={16} />
+              <span>Documents / pdf</span>
             </div>
-
-            {/* Section 3: File Multi-Upload */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-green-500 font-black text-[11px] uppercase tracking-[0.2em]">
-                <FileText size={16} />
-                <span>Documents / pdf</span>
-              </div>
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full bg-slate-50/50 border-2 border-dashed border-slate-100 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-50 transition-all"
-              >
-                <input
-                  type="file"
-                  multiple
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  className="hidden"
-                  accept=".pdf,.txt"
-                />
-                <div className="flex items-center justify-center gap-2 text-slate-400 text-[10px] font-black tracking-widest uppercase">
-                  <Upload size={14} />
-                  <span>ファイルを選択</span>
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full bg-slate-50/50 border-2 border-dashed border-slate-100 rounded-2xl p-8 text-center cursor-pointer hover:bg-slate-50 transition-all group"
+            >
+              <input
+                type="file"
+                multiple
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                accept=".pdf,.txt"
+              />
+              <div className="flex flex-col items-center justify-center gap-3 text-slate-400">
+                <div className="p-3 bg-white rounded-full shadow-sm group-hover:scale-110 transition-transform">
+                  <Upload size={20} className="text-green-500" />
+                </div>
+                <div className="text-[10px] font-black tracking-widest uppercase">
+                  ファイルを選択またはドロップ
                 </div>
               </div>
             </div>
