@@ -1,0 +1,7 @@
+{
+  "name": "CommuDic - AI Person Encyclopedia",
+  "description": "An AI-powered personality analysis tool that transforms your past outputs into a vibrant, shareable encyclopedia card.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
