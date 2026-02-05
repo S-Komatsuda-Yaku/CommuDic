@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Radar,
@@ -6,7 +5,7 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts';
 import { PersonalityScores } from '../types';
 
@@ -38,11 +37,7 @@ const RadarChart: React.FC<Props> = ({ scores }) => {
             dataKey="subject"
             tick={{ fill: '#64748b', fontSize: 10, fontWeight: 900 }}
           />
-          <PolarRadiusAxis
-            domain={[0, 5]}
-            tick={false}
-            axisLine={false}
-          />
+          <PolarRadiusAxis domain={[0, 5]} tick={false} axisLine={false} />
           <Radar
             name="Personality"
             dataKey="A"
