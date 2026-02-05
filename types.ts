@@ -1,4 +1,3 @@
-
 export interface PersonalityScores {
   sociability: number;
   logic: number;
@@ -11,14 +10,14 @@ export interface AnalysisResult {
   catchphrase: string;
   summary: string;
   scores: PersonalityScores;
-  
+
   // 業務適性セクション
   businessAptitude: {
     workStyle: string;
     strengths: string[];
     suitableRoles: string[];
   };
-  
+
   // 人/コミュニティセクション
   personCommunity: {
     socialStyle: string;

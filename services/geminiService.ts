@@ -1,12 +1,11 @@
-
-import { GoogleGenAI, Type } from "@google/genai";
-import { AnalysisResult, AnalysisInput } from "../types";
+import { GoogleGenAI, Type } from '@google/genai';
+import { AnalysisResult, AnalysisInput } from '../types';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export async function analyzePersonality(input: AnalysisInput): Promise<AnalysisResult> {
   const parts: any[] = [];
-  
+
   let promptText = `Analyze the combined data and synthesize a professional person encyclopedia card.
     INTEGRATE ALL INPUTS into two distinct categories:
     1. [Business Aptitude]: Professional skills, work style, strengths, and recommended business roles.
@@ -22,8 +21,8 @@ export async function analyzePersonality(input: AnalysisInput): Promise<Analysis
     parts.push({
       inlineData: {
         data: file.base64,
-        mimeType: file.mimeType
-      }
+        mimeType: file.mimeType,
+      },
     });
   });
 
@@ -31,10 +30,10 @@ export async function analyzePersonality(input: AnalysisInput): Promise<Analysis
 
   const response = await ai.models.generateContent({
     // Free tier friendly model for local development
-    model: "gemini-2.5-flash",
+    model: 'gemini-2.5-flash',
     contents: { parts },
     config: {
-      responseMimeType: "application/json",
+      responseMimeType: 'application/json',
       responseSchema: {
         type: Type.OBJECT,
         properties: {
@@ -49,7 +48,7 @@ export async function analyzePersonality(input: AnalysisInput): Promise<Analysis
               cooperation: { type: Type.NUMBER },
               action: { type: Type.NUMBER },
             },
-            required: ["sociability", "logic", "curiosity", "cooperation", "action"],
+            required: ['sociability', 'logic', 'curiosity', 'cooperation', 'action'],
           },
           businessAptitude: {
             type: Type.OBJECT,
@@ -58,7 +57,7 @@ export async function analyzePersonality(input: AnalysisInput): Promise<Analysis
               strengths: { type: Type.ARRAY, items: { type: Type.STRING } },
               suitableRoles: { type: Type.ARRAY, items: { type: Type.STRING } },
             },
-            required: ["workStyle", "strengths", "suitableRoles"],
+            required: ['workStyle', 'strengths', 'suitableRoles'],
           },
           personCommunity: {
             type: Type.OBJECT,
@@ -68,13 +67,21 @@ export async function analyzePersonality(input: AnalysisInput): Promise<Analysis
               interactionTips: { type: Type.STRING },
               optimalPlace: { type: Type.STRING },
             },
-            required: ["socialStyle", "values", "interactionTips", "optimalPlace"],
+            required: ['socialStyle', 'values', 'interactionTips', 'optimalPlace'],
           },
           type: { type: Type.STRING },
         },
-        required: ["catchphrase", "summary", "scores", "businessAptitude", "personCommunity", "type"],
+        required: [
+          'catchphrase',
+          'summary',
+          'scores',
+          'businessAptitude',
+          'personCommunity',
+          'type',
+        ],
       },
-      systemInstruction: "You are an elite talent analyst. Create a sophisticated, encouraging person-profile focusing on professional aptitude and personal social charm.",
+      systemInstruction:
+        'You are an elite talent analyst. Create a sophisticated, encouraging person-profile focusing on professional aptitude and personal social charm.',
     },
   });
 

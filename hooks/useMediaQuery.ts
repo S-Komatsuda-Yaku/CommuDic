@@ -5,21 +5,21 @@ import { useSyncExternalStore } from 'react';
  * Synchronizes with the window media query state.
  */
 export function useMediaQuery(query: string): boolean {
-    const subscribe = (callback: () => void) => {
-        const matchMedia = window.matchMedia(query);
-        matchMedia.addEventListener('change', callback);
-        return () => matchMedia.removeEventListener('change', callback);
-    };
+  const subscribe = (callback: () => void) => {
+    const matchMedia = window.matchMedia(query);
+    matchMedia.addEventListener('change', callback);
+    return () => matchMedia.removeEventListener('change', callback);
+  };
 
-    const getSnapshot = () => {
-        return window.matchMedia(query).matches;
-    };
+  const getSnapshot = () => {
+    return window.matchMedia(query).matches;
+  };
 
-    const getServerSnapshot = () => {
-        return false; // Default for SSR
-    };
+  const getServerSnapshot = () => {
+    return false; // Default for SSR
+  };
 
-    return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 // Predefined breakpoints matching Tailwind defaults
