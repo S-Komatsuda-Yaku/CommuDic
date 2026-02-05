@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import InputSection from './components/InputSection';
 import ResultCard from './components/ResultCard';
@@ -26,7 +25,7 @@ const App: React.FC = () => {
           url_flg: !!input.url,
           file_flg: input.files.length > 0,
           file_count: input.files.length,
-          result_type: 'processing'
+          result_type: 'processing',
         })
         .select('id')
         .single();
@@ -63,11 +62,14 @@ const App: React.FC = () => {
       const errMsg = err?.message ?? err?.response?.statusText;
 
       if (status === 401 || status === 403) {
-        message += '\nAPIキーが無効か、権限が不足している可能性があります。`GEMINI_API_KEY` を確認してください。';
+        message +=
+          '\nAPIキーが無効か、権限が不足している可能性があります。`GEMINI_API_KEY` を確認してください。';
       } else if (status === 400) {
-        message += '\n入力形式（URL・ファイル形式など）が現在のAPI仕様と合っていない可能性があります。PDF かテキストのみ、または文章入力のみでお試しください。';
+        message +=
+          '\n入力形式（URL・ファイル形式など）が現在のAPI仕様と合っていない可能性があります。PDF かテキストのみ、または文章入力のみでお試しください。';
       } else if (status === 429) {
-        message += '\nGemini API の無料枠または現在のクォータを使い切っています。AI Studio でレートリミットと課金設定を確認してください。';
+        message +=
+          '\nGemini API の無料枠または現在のクォータを使い切っています。AI Studio でレートリミットと課金設定を確認してください。';
       }
 
       if (import.meta.env.DEV && errMsg) {
@@ -103,7 +105,9 @@ const App: React.FC = () => {
           </span>
         </div>
         <div className="flex gap-4 md:gap-8 items-center">
-          <span className="text-[9px] md:text-[10px] font-black text-slate-400 tracking-widest uppercase bg-slate-50 px-2 py-1 rounded-md md:bg-transparent md:p-0">v1.0.0</span>
+          <span className="text-[9px] md:text-[10px] font-black text-slate-400 tracking-widest uppercase bg-slate-50 px-2 py-1 rounded-md md:bg-transparent md:p-0">
+            v1.0.0
+          </span>
         </div>
       </nav>
 
